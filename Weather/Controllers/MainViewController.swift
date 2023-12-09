@@ -7,6 +7,7 @@
 
 import UIKit
 import CoreLocation
+import Network
 
 class MainViewController: UIViewController {
 
@@ -39,12 +40,20 @@ class MainViewController: UIViewController {
         signatureDelegate()
         requestUserLocation()
         setupConstraints()
+        
+        checkConnecting { isConnected in
+            if isConnected {
+                print("Есть подключение")
+            } else {
+                print("Нет подключения")
+            }
+        }
     }
 
     //MARK: - Private methods
     
     private func signatureDelegate() {
-
+        // Delegates and data source
         mainView.searchTextField.delegate = self
         daysWeather.dataSource = self
         daysWeather.delegate = self
@@ -72,11 +81,27 @@ class MainViewController: UIViewController {
         // Add targets for button
         mainView.locationButtonAddTarget(target: self, selector: #selector(locationButtonTapped))
         mainView.searchButtonAddTarget(target: self, selector: #selector(searchButtonTapped))
+        
     }
     
     private func requestUserLocation() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
+    }
+    
+   private func checkConnecting(completionHandler: @escaping (Bool) -> Void) {
+        let monitor = NWPathMonitor()
+
+        monitor.pathUpdateHandler = { path in
+            if path.status == .satisfied {
+                completionHandler(true)
+            } else {
+                completionHandler(false)
+            }
+        }
+
+        let queue = DispatchQueue(label: "NetworkMonitor")
+        monitor.start(queue: queue)
     }
     
     //MARK: - Objectiv-C methods
