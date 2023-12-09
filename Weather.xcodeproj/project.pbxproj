@@ -13,6 +13,14 @@
 		1E6D510B2B243459009718C4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1E6D510A2B243459009718C4 /* Assets.xcassets */; };
 		1E6D510E2B243459009718C4 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1E6D510C2B243459009718C4 /* LaunchScreen.storyboard */; };
 		1E6D511B2B243647009718C4 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D511A2B243647009718C4 /* MainView.swift */; };
+		1E6D511E2B243ACF009718C4 /* UIView - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D511D2B243ACF009718C4 /* UIView - Extension.swift */; };
+		1E6D51202B243B6A009718C4 /* UILabel - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D511F2B243B6A009718C4 /* UILabel - Extension.swift */; };
+		1E6D51222B243DE5009718C4 /* UIStackView - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51212B243DE5009718C4 /* UIStackView - Extension.swift */; };
+		1E6D51242B244EAB009718C4 /* HourlyWeatherCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51232B244EAB009718C4 /* HourlyWeatherCollection.swift */; };
+		1E6D51272B244EE4009718C4 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */; };
+		1E6D51292B24632F009718C4 /* DaysWeatherTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */; };
+		1E6D512C2B246465009718C4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */; };
+		1E6D51312B24BA30009718C4 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51302B24BA30009718C4 /* Week.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +32,14 @@
 		1E6D510D2B243459009718C4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1E6D510F2B243459009718C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1E6D511A2B243647009718C4 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		1E6D511D2B243ACF009718C4 /* UIView - Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView - Extension.swift"; sourceTree = "<group>"; };
+		1E6D511F2B243B6A009718C4 /* UILabel - Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel - Extension.swift"; sourceTree = "<group>"; };
+		1E6D51212B243DE5009718C4 /* UIStackView - Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView - Extension.swift"; sourceTree = "<group>"; };
+		1E6D51232B244EAB009718C4 /* HourlyWeatherCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherCollection.swift; sourceTree = "<group>"; };
+		1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysWeatherTable.swift; sourceTree = "<group>"; };
+		1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		1E6D51302B24BA30009718C4 /* Week.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +72,7 @@
 		1E6D51002B243458009718C4 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
+				1E6D511C2B243A91009718C4 /* Extension */,
 				1E6D51192B2434BB009718C4 /* Supports */,
 				1E6D51182B243491009718C4 /* Aplications */,
 				1E6D51172B243480009718C4 /* Controllers */,
@@ -68,7 +85,10 @@
 		1E6D51152B243471009718C4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1E6D51252B244EBC009718C4 /* CustomCells */,
 				1E6D511A2B243647009718C4 /* MainView.swift */,
+				1E6D51232B244EAB009718C4 /* HourlyWeatherCollection.swift */,
+				1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -76,6 +96,7 @@
 		1E6D51162B243478009718C4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1E6D51302B24BA30009718C4 /* Week.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -105,6 +126,25 @@
 				1E6D510F2B243459009718C4 /* Info.plist */,
 			);
 			path = Supports;
+			sourceTree = "<group>";
+		};
+		1E6D511C2B243A91009718C4 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				1E6D511D2B243ACF009718C4 /* UIView - Extension.swift */,
+				1E6D511F2B243B6A009718C4 /* UILabel - Extension.swift */,
+				1E6D51212B243DE5009718C4 /* UIStackView - Extension.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		1E6D51252B244EBC009718C4 /* CustomCells */ = {
+			isa = PBXGroup;
+			children = (
+				1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */,
+				1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */,
+			);
+			path = CustomCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -178,9 +218,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				1E6D51062B243458009718C4 /* MainViewController.swift in Sources */,
+				1E6D51272B244EE4009718C4 /* CustomCollectionViewCell.swift in Sources */,
+				1E6D512C2B246465009718C4 /* CustomTableViewCell.swift in Sources */,
+				1E6D511E2B243ACF009718C4 /* UIView - Extension.swift in Sources */,
+				1E6D51202B243B6A009718C4 /* UILabel - Extension.swift in Sources */,
+				1E6D51312B24BA30009718C4 /* Week.swift in Sources */,
 				1E6D511B2B243647009718C4 /* MainView.swift in Sources */,
+				1E6D51222B243DE5009718C4 /* UIStackView - Extension.swift in Sources */,
 				1E6D51022B243458009718C4 /* AppDelegate.swift in Sources */,
 				1E6D51042B243458009718C4 /* SceneDelegate.swift in Sources */,
+				1E6D51292B24632F009718C4 /* DaysWeatherTable.swift in Sources */,
+				1E6D51242B244EAB009718C4 /* HourlyWeatherCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
