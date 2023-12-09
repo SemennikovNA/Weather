@@ -11,11 +11,11 @@ extension UILabel {
 
     //MARK: - Custom initialize
     
-    convenience init(text: String, font: UIFont, textColor: UIColor, textAlignment: NSTextAlignment) {
+    convenience init(text: String? = nil, font: UIFont?, textColor: UIColor?, textAlignment: NSTextAlignment?) {
         self.init(frame: .infinite)
         self.text = text
         self.font = font
         self.textColor = textColor
-        self.textAlignment = textAlignment
+        self.textAlignment = textAlignment!
     }
 }
