@@ -17,12 +17,13 @@ class MainViewController: UIViewController {
     
     //MARK: - Properties
     let hourWeatherInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-    let weekDay = [Week(day: "Sunday"),
-                   Week(day: "Monday"),
-                   Week(day: "Tuesday"),
-                   Week(day: "Wednesday"),
-                   Week(day: "Thursday"),
-                   Week(day: "Friday")
+    let weekDay = [
+        Week(day: "Sunday"),
+        Week(day: "Monday"),
+        Week(day: "Tuesday"),
+        Week(day: "Wednesday"),
+        Week(day: "Thursday"),
+        Week(day: "Friday")
     ]
     
     //MARK: - Life cycle
@@ -39,10 +40,15 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         // Setup view
-        self.view.addSubviews(mainView, hourWeather, daysWeather)
+        view.addSubviews(mainView, hourWeather, daysWeather)
+        view.backgroundColor = .white
         
         // Setup main view
         mainView.backgroundColor = .back
+        
+        // Search text field
+        mainView.searchTextField.delegate = self
+        
         
         // Days weather table
         daysWeather.showsVerticalScrollIndicator = false
@@ -61,41 +67,6 @@ class MainViewController: UIViewController {
 
 //MARK: - Extension
 
-extension MainViewController {
-    
-    /// Value for constants
-    private enum Constants {
-        static let tenPoints: CGFloat = 10
-        static let twentyPoints: CGFloat = 20
-        static let hourWeatherHeight: CGFloat = 100
-        static let hourWeatherTopIdent: CGFloat = 300
-    }
-    
-    /// Setup constraints for user elements
-    private func setupConstraints() {
-        
-        NSLayoutConstraint.activate([
-            // Main view
-            mainView.topAnchor.constraint(equalTo: view.topAnchor),
-            mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mainView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            // Hour weather collection
-            hourWeather.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.hourWeatherTopIdent),
-            hourWeather.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: Constants.twentyPoints),
-            hourWeather.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -Constants.twentyPoints),
-            hourWeather.heightAnchor.constraint(equalToConstant: Constants.hourWeatherHeight),
-            
-            // Days table
-            daysWeather.topAnchor.constraint(equalTo: hourWeather.bottomAnchor, constant: Constants.tenPoints),
-            daysWeather.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: Constants.twentyPoints),
-            daysWeather.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -Constants.twentyPoints),
-            daysWeather.bottomAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.twentyPoints),
-        ])
-    }
-}
-
 //MARK: Collection view delegate, data source and flow layout methods
 
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -113,7 +84,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 45, height: 100)
+        let collectionCellSize = CGSize(width: 45, height: 100)
+        return collectionCellSize
     }
 }
 
@@ -135,6 +107,70 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        60
+        let heightForRowTable: CGFloat = 60
+        return heightForRowTable
+    }
+}
+
+//MARK: Text field delegate
+
+extension MainViewController: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = mainView.searchTextField.text else { return }
+        print(text)
+        mainView.searchTextField.text = ""
+    }
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        mainView.searchTextField.endEditing(true)
+        return true
+    }
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if mainView.searchTextField.text != " " {
+            return true
+        } else {
+            mainView.searchTextField.placeholder = "Нужно ввести город"
+            return false
+        }
+    }
+}
+
+//MARK: Constraints for view
+
+extension MainViewController {
+    
+    /// Value for constants
+    private enum Constants {
+        static let tenPoints: CGFloat = 10
+        static let twentyPoints: CGFloat = 20
+        static let hourWeatherHeight: CGFloat = 100
+        static let mainViewHeight: CGFloat = 270
+        static let hourWeatherTopIdent: CGFloat = 280
+    }
+    
+    /// Setup constraints for user elements
+    private func setupConstraints() {
+        
+        NSLayoutConstraint.activate([
+            // Main view
+            mainView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mainView.heightAnchor.constraint(equalToConstant: Constants.mainViewHeight),
+            
+            // Hour weather collection
+            hourWeather.topAnchor.constraint(equalTo: mainView.bottomAnchor),
+            hourWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
+            hourWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
+            hourWeather.heightAnchor.constraint(equalToConstant: Constants.hourWeatherHeight),
+            
+            // Days table
+            daysWeather.topAnchor.constraint(equalTo: hourWeather.bottomAnchor, constant: Constants.tenPoints),
+            daysWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
+            daysWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
+            daysWeather.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ])
     }
 }

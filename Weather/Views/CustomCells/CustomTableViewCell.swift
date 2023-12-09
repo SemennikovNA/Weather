@@ -16,8 +16,8 @@ class CustomTableViewCell: UITableViewCell {
     //MARK: - UI Elemetns
     
     let cellView = UIView()
-    let dayLabel = UILabel(font: .boldSystemFont(ofSize: 20), textColor: .black, textAlignment: .left)
-    let weatherImage = UIImageView()
+    let dayLabel = UILabel(font: .boldSystemFont(ofSize: 20), textColor: .dynamicText, textAlignment: .left)
+    let weatherImage = UIImageView(tintColor: .dynamicText)
     let minimumTemperatureLabel = UILabel(font: .systemFont(ofSize: 14), textColor: .dynamicText, textAlignment: .center)
     let maximumTemperatureLabel = UILabel(font: .systemFont(ofSize: 14), textColor: .dynamicText, textAlignment: .center)
     
@@ -38,7 +38,6 @@ class CustomTableViewCell: UITableViewCell {
     private func setupCell() {
         contentView.addSubviews(cellView)
         cellView.addSubviews(dayLabel, weatherImage, minimumTemperatureLabel, maximumTemperatureLabel)
-        weatherImage.tintColor = .black
     }
 }
 
@@ -89,8 +88,4 @@ extension CustomTableViewCell {
             maximumTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.temperatureLabelWidth),
         ])
     }
-}
-
-#Preview {
-    MainViewController()
 }
