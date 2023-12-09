@@ -49,7 +49,6 @@ class MainViewController: UIViewController {
         // Search text field
         mainView.searchTextField.delegate = self
         
-        
         // Days weather table
         daysWeather.showsVerticalScrollIndicator = false
         daysWeather.dataSource = self
@@ -62,7 +61,22 @@ class MainViewController: UIViewController {
         hourWeather.backgroundColor = .back
         hourWeather.contentInset = UIEdgeInsets(top: hourWeatherInsets.top, left: hourWeatherInsets.left, bottom: hourWeatherInsets.bottom, right: hourWeatherInsets.right)
         
+        // Add targets for button
+        mainView.locationButtonAddTarget(target: self, selector: #selector(locationButtonTapped))
+        mainView.searchButtonAddTarget(target: self, selector: #selector(searchButtonTapped))
     }
+    
+    //MARK: - Objectiv-C methods
+    
+    @objc func locationButtonTapped() {
+        print("location")
+    }
+    
+    @objc func searchButtonTapped() {
+        mainView.searchTextField.endEditing(true)
+        print("city")
+    }
+    
 }
 
 //MARK: - Extension
