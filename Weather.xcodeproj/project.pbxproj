@@ -18,6 +18,8 @@
 		1E6D51222B243DE5009718C4 /* UIStackView - Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51212B243DE5009718C4 /* UIStackView - Extension.swift */; };
 		1E6D51242B244EAB009718C4 /* HourlyWeatherCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51232B244EAB009718C4 /* HourlyWeatherCollection.swift */; };
 		1E6D51272B244EE4009718C4 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */; };
+		1E6D51292B24632F009718C4 /* DaysWeatherTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */; };
+		1E6D512C2B246465009718C4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +36,8 @@
 		1E6D51212B243DE5009718C4 /* UIStackView - Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIStackView - Extension.swift"; sourceTree = "<group>"; };
 		1E6D51232B244EAB009718C4 /* HourlyWeatherCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyWeatherCollection.swift; sourceTree = "<group>"; };
 		1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
+		1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysWeatherTable.swift; sourceTree = "<group>"; };
+		1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +86,7 @@
 				1E6D51252B244EBC009718C4 /* CustomCells */,
 				1E6D511A2B243647009718C4 /* MainView.swift */,
 				1E6D51232B244EAB009718C4 /* HourlyWeatherCollection.swift */,
+				1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -134,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */,
+				1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */,
 			);
 			path = CustomCells;
 			sourceTree = "<group>";
@@ -210,12 +216,14 @@
 			files = (
 				1E6D51062B243458009718C4 /* MainViewController.swift in Sources */,
 				1E6D51272B244EE4009718C4 /* CustomCollectionViewCell.swift in Sources */,
+				1E6D512C2B246465009718C4 /* CustomTableViewCell.swift in Sources */,
 				1E6D511E2B243ACF009718C4 /* UIView - Extension.swift in Sources */,
 				1E6D51202B243B6A009718C4 /* UILabel - Extension.swift in Sources */,
 				1E6D511B2B243647009718C4 /* MainView.swift in Sources */,
 				1E6D51222B243DE5009718C4 /* UIStackView - Extension.swift in Sources */,
 				1E6D51022B243458009718C4 /* AppDelegate.swift in Sources */,
 				1E6D51042B243458009718C4 /* SceneDelegate.swift in Sources */,
+				1E6D51292B24632F009718C4 /* DaysWeatherTable.swift in Sources */,
 				1E6D51242B244EAB009718C4 /* HourlyWeatherCollection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

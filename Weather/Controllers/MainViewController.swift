@@ -9,7 +9,7 @@ import UIKit
 
 class MainViewController: UIViewController {
 
-    //MARK: - User Elements
+    //MARK: - UI Elements
     
     private lazy var mainView = MainView()
     private lazy var hourWeather = HourlyWeatherCollection()

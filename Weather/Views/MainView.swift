@@ -9,6 +9,8 @@ import UIKit
 
 class MainView: UIView {
     
+    //MARK: - UI Elements
+    
     let cityLabel = UILabel(text: "Miami", font: .boldSystemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
     let temperatureLabel = UILabel(text: "-10°C", font: .systemFont(ofSize: 54), textColor: .dynamicText, textAlignment: .center)
     let descriptionWeatherLabel = UILabel(text: "Солнечно", font: .systemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
