@@ -16,8 +16,8 @@ class CustomTableViewCell: UITableViewCell {
     //MARK: - UI Elemetns
     
     let cellView = UIView()
-    let dayLabel = UILabel(font: .boldSystemFont(ofSize: 20), textColor: .black, textAlignment: .left)
-    let weatherImage = UIImageView()
+    let dayLabel = UILabel(font: .boldSystemFont(ofSize: 20), textColor: .dynamicText, textAlignment: .left)
+    let weatherImage = UIImageView(tintColor: .dynamicText)
     let minimumTemperatureLabel = UILabel(font: .systemFont(ofSize: 14), textColor: .dynamicText, textAlignment: .center)
     let maximumTemperatureLabel = UILabel(font: .systemFont(ofSize: 14), textColor: .dynamicText, textAlignment: .center)
     
@@ -38,7 +38,6 @@ class CustomTableViewCell: UITableViewCell {
     private func setupCell() {
         contentView.addSubviews(cellView)
         cellView.addSubviews(dayLabel, weatherImage, minimumTemperatureLabel, maximumTemperatureLabel)
-        weatherImage.tintColor = .black
     }
 }
 
@@ -49,7 +48,10 @@ extension CustomTableViewCell {
         static let fivePoints: CGFloat = 5
         static let tenPoints: CGFloat = 10
         static let twentyPoints: CGFloat = 20
-        
+        static let thirtyFivePoints: CGFloat = 35
+        static let dayLabelHeight: CGFloat = 30
+        static let temperatureLabelWidth: CGFloat = 80
+        static let dayLabelWidth: CGFloat = 110
     }
     
     /// Setup constraints for user elements in table cell
@@ -64,30 +66,26 @@ extension CustomTableViewCell {
             
             // Day label
             dayLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
-            dayLabel.heightAnchor.constraint(equalToConstant: 30),
-            dayLabel.widthAnchor.constraint(equalToConstant: 110),
+            dayLabel.heightAnchor.constraint(equalToConstant: Constants.dayLabelHeight),
+            dayLabel.widthAnchor.constraint(equalToConstant: Constants.dayLabelWidth),
             
             // Weather image
             weatherImage.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
             weatherImage.leadingAnchor.constraint(equalTo: dayLabel.trailingAnchor, constant: Constants.tenPoints),
-            weatherImage.heightAnchor.constraint(equalToConstant: 35),
-            weatherImage.widthAnchor.constraint(equalToConstant: 35),
+            weatherImage.heightAnchor.constraint(equalToConstant: Constants.thirtyFivePoints),
+            weatherImage.widthAnchor.constraint(equalToConstant: Constants.thirtyFivePoints),
             
             // Minimum temperature label
             minimumTemperatureLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
             minimumTemperatureLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: Constants.twentyPoints),
-            minimumTemperatureLabel.heightAnchor.constraint(equalToConstant: 35),
-            minimumTemperatureLabel.widthAnchor.constraint(equalToConstant: 80),
+            minimumTemperatureLabel.heightAnchor.constraint(equalToConstant: Constants.thirtyFivePoints),
+            minimumTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.temperatureLabelWidth),
             
             // Maximum temperature label
             maximumTemperatureLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
             maximumTemperatureLabel.leadingAnchor.constraint(equalTo: minimumTemperatureLabel.trailingAnchor, constant: Constants.fivePoints),
-            maximumTemperatureLabel.heightAnchor.constraint(equalToConstant: 35),
-            maximumTemperatureLabel.widthAnchor.constraint(equalToConstant: 80),
+            maximumTemperatureLabel.heightAnchor.constraint(equalToConstant: Constants.thirtyFivePoints),
+            maximumTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.temperatureLabelWidth),
         ])
     }
-}
-
-#Preview {
-    MainViewController()
 }
