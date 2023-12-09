@@ -13,9 +13,17 @@ class MainViewController: UIViewController {
     
     private lazy var mainView = MainView()
     private lazy var hourWeather = HourlyWeatherCollection()
+    private lazy var daysWeather = DaysWeatherTable()
     
     //MARK: - Properties
     let hourWeatherInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
+    let weekDay = [Week(day: "Sunday"),
+                   Week(day: "Monday"),
+                   Week(day: "Tuesday"),
+                   Week(day: "Wednesday"),
+                   Week(day: "Thursday"),
+                   Week(day: "Friday")
+    ]
     
     //MARK: - Life cycle
     
@@ -31,10 +39,15 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         // Setup view
-        self.view.addSubviews(mainView, hourWeather)
+        self.view.addSubviews(mainView, hourWeather, daysWeather)
         
         // Setup main view
         mainView.backgroundColor = .back
+        
+        // Days weather table
+        daysWeather.showsVerticalScrollIndicator = false
+        daysWeather.dataSource = self
+        daysWeather.delegate = self
         
         // Hour weather collection
         hourWeather.delegate = self
@@ -42,6 +55,7 @@ class MainViewController: UIViewController {
         hourWeather.showsHorizontalScrollIndicator = false
         hourWeather.backgroundColor = .back
         hourWeather.contentInset = UIEdgeInsets(top: hourWeatherInsets.top, left: hourWeatherInsets.left, bottom: hourWeatherInsets.bottom, right: hourWeatherInsets.right)
+        
     }
 }
 
@@ -51,6 +65,7 @@ extension MainViewController {
     
     /// Value for constants
     private enum Constants {
+        static let tenPoints: CGFloat = 10
         static let twentyPoints: CGFloat = 20
         static let hourWeatherHeight: CGFloat = 100
         static let hourWeatherTopIdent: CGFloat = 300
@@ -68,17 +83,25 @@ extension MainViewController {
             
             // Hour weather collection
             hourWeather.topAnchor.constraint(equalTo: view.topAnchor, constant: Constants.hourWeatherTopIdent),
-            hourWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
-            hourWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
+            hourWeather.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: Constants.twentyPoints),
+            hourWeather.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -Constants.twentyPoints),
             hourWeather.heightAnchor.constraint(equalToConstant: Constants.hourWeatherHeight),
+            
+            // Days table
+            daysWeather.topAnchor.constraint(equalTo: hourWeather.bottomAnchor, constant: Constants.tenPoints),
+            daysWeather.leadingAnchor.constraint(equalTo: mainView.leadingAnchor, constant: Constants.twentyPoints),
+            daysWeather.trailingAnchor.constraint(equalTo: mainView.trailingAnchor, constant: -Constants.twentyPoints),
+            daysWeather.bottomAnchor.constraint(equalTo: mainView.safeAreaLayoutGuide.bottomAnchor, constant: -Constants.twentyPoints),
         ])
     }
 }
 
+//MARK: Collection view delegate, data source and flow layout methods
+
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        10
+        weekDay.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -94,6 +117,24 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 }
 
-#Preview {
-    MainViewController()
+//MARK: Table view delegate, data source methods
+
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        weekDay.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = daysWeather.dequeueReusableCell(withIdentifier: CustomTableViewCell.reuseIdentifier, for: indexPath) as! CustomTableViewCell
+        cell.dayLabel.text = weekDay[indexPath.row].day
+        cell.weatherImage.image = UIImage(systemName: "sun.max")
+        cell.minimumTemperatureLabel.text = "Min: -10°C"
+        cell.maximumTemperatureLabel.text = "Max: 0°C"
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        60
+    }
 }

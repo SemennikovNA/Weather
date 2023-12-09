@@ -20,6 +20,7 @@
 		1E6D51272B244EE4009718C4 /* CustomCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */; };
 		1E6D51292B24632F009718C4 /* DaysWeatherTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */; };
 		1E6D512C2B246465009718C4 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */; };
+		1E6D51312B24BA30009718C4 /* Week.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51302B24BA30009718C4 /* Week.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		1E6D51262B244EE4009718C4 /* CustomCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewCell.swift; sourceTree = "<group>"; };
 		1E6D51282B24632F009718C4 /* DaysWeatherTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaysWeatherTable.swift; sourceTree = "<group>"; };
 		1E6D512B2B246465009718C4 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		1E6D51302B24BA30009718C4 /* Week.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Week.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 		1E6D51162B243478009718C4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1E6D51302B24BA30009718C4 /* Week.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -219,6 +222,7 @@
 				1E6D512C2B246465009718C4 /* CustomTableViewCell.swift in Sources */,
 				1E6D511E2B243ACF009718C4 /* UIView - Extension.swift in Sources */,
 				1E6D51202B243B6A009718C4 /* UILabel - Extension.swift in Sources */,
+				1E6D51312B24BA30009718C4 /* Week.swift in Sources */,
 				1E6D511B2B243647009718C4 /* MainView.swift in Sources */,
 				1E6D51222B243DE5009718C4 /* UIStackView - Extension.swift in Sources */,
 				1E6D51022B243458009718C4 /* AppDelegate.swift in Sources */,

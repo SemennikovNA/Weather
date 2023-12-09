@@ -14,8 +14,8 @@ class MainView: UIView {
     let cityLabel = UILabel(text: "Miami", font: .boldSystemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
     let temperatureLabel = UILabel(text: "-10°C", font: .systemFont(ofSize: 54), textColor: .dynamicText, textAlignment: .center)
     let descriptionWeatherLabel = UILabel(text: "Солнечно", font: .systemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
-    let minimumTemperatureLabel = UILabel(text: "Max: -20°C", font: .systemFont(ofSize: 10), textColor: .dynamicText, textAlignment: .right)
-    let maximumTemperatureLabel = UILabel(text: "Min: 0°C", font: .systemFont(ofSize: 10), textColor: .dynamicText, textAlignment: .left)
+    let minimumTemperatureLabel = UILabel(text: "Min: -20°C", font: .systemFont(ofSize: 10), textColor: .dynamicText, textAlignment: .right)
+    let maximumTemperatureLabel = UILabel(text: "Max: 0°C", font: .systemFont(ofSize: 10), textColor: .dynamicText, textAlignment: .left)
     let verticalStack = UIStackView(axis: .vertical)
     let horizontalStack = UIStackView(axis: .horizontal)
     

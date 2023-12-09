@@ -9,8 +9,11 @@ import UIKit
 
 class DaysWeatherTable: UITableView {
 
+    //MARK: - Inititalize
+
+    
     override init(frame: CGRect, style: UITableView.Style) {
-        super.init(frame: frame, style: .plain)
+         super.init(frame: frame, style: style)
         
         // Call function's
         setupTable()
@@ -23,6 +26,6 @@ class DaysWeatherTable: UITableView {
     //MARK: - Private methods
     
     private func setupTable() {
-        register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.reuseID)
+        register(CustomTableViewCell.self, forCellReuseIdentifier: CustomTableViewCell.reuseIdentifier)
     }
 }
