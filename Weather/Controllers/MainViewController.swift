@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 class MainViewController: UIViewController {
 
@@ -16,6 +17,8 @@ class MainViewController: UIViewController {
     private lazy var daysWeather = DaysWeatherTable()
     
     //MARK: - Properties
+    
+    let locationManager = CLLocationManager()
     let hourWeatherInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     let weekDay = [
         Week(day: "Sunday"),
@@ -33,30 +36,35 @@ class MainViewController: UIViewController {
         
         // Call fucntion's
         setupView()
+        signatureDelegate()
+        requestUserLocation()
         setupConstraints()
     }
 
     //MARK: - Private methods
     
+    private func signatureDelegate() {
+
+        mainView.searchTextField.delegate = self
+        daysWeather.dataSource = self
+        daysWeather.delegate = self
+        hourWeather.delegate = self
+        hourWeather.dataSource = self
+        locationManager.delegate = self
+    }
+    
     private func setupView() {
         // Setup view
         view.addSubviews(mainView, hourWeather, daysWeather)
-        view.backgroundColor = .white
+        view.backgroundColor = .back
         
         // Setup main view
         mainView.backgroundColor = .back
         
-        // Search text field
-        mainView.searchTextField.delegate = self
-        
         // Days weather table
         daysWeather.showsVerticalScrollIndicator = false
-        daysWeather.dataSource = self
-        daysWeather.delegate = self
         
         // Hour weather collection
-        hourWeather.delegate = self
-        hourWeather.dataSource = self
         hourWeather.showsHorizontalScrollIndicator = false
         hourWeather.backgroundColor = .back
         hourWeather.contentInset = UIEdgeInsets(top: hourWeatherInsets.top, left: hourWeatherInsets.left, bottom: hourWeatherInsets.bottom, right: hourWeatherInsets.right)
@@ -66,10 +74,15 @@ class MainViewController: UIViewController {
         mainView.searchButtonAddTarget(target: self, selector: #selector(searchButtonTapped))
     }
     
+    private func requestUserLocation() {
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.requestLocation()
+    }
+    
     //MARK: - Objectiv-C methods
     
     @objc func locationButtonTapped() {
-        print("location")
+        locationManager.requestLocation()
     }
     
     @objc func searchButtonTapped() {
@@ -142,12 +155,28 @@ extension MainViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if mainView.searchTextField.text != " " {
+        if mainView.searchTextField.text != "" {
             return true
         } else {
             mainView.searchTextField.placeholder = "Нужно ввести город"
             return false
         }
+    }
+}
+
+//MARK: Core location delegate
+
+extension MainViewController: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        let latitude = location.coordinate.latitude
+        let longitude = location.coordinate.longitude
+        print(latitude, longitude)
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
     }
 }
 
