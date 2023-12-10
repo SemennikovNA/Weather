@@ -11,7 +11,7 @@ extension UILabel {
 
     //MARK: - Custom initialize
     
-    convenience init(text: String? = nil, font: UIFont?, textColor: UIColor?, textAlignment: NSTextAlignment?) {
+    convenience init(text: String? = nil, font: UIFont? = .systemFont(ofSize: 15), textColor: UIColor? = .dynamicText, textAlignment: NSTextAlignment? = .center) {
         self.init(frame: .infinite)
         self.text = text
         self.font = font

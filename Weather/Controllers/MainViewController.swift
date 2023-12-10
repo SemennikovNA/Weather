@@ -10,12 +10,13 @@ import CoreLocation
 import Network
 
 class MainViewController: UIViewController {
-
+    
     //MARK: - UI Elements
     
     private lazy var mainView = MainView()
     private lazy var hourWeather = HourlyWeatherCollection()
     private lazy var daysWeather = DaysWeatherTable()
+    private lazy var connectedLabel = UILabel(textAlignment: .center)
     
     //MARK: - Properties
     
@@ -27,10 +28,20 @@ class MainViewController: UIViewController {
         Week(day: "Tuesday"),
         Week(day: "Wednesday"),
         Week(day: "Thursday"),
-        Week(day: "Friday")
+        Week(day: "Friday"),
+        Week(day: "Saturday")
     ]
     
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //MARK: - Life cycle
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,16 +51,11 @@ class MainViewController: UIViewController {
         signatureDelegate()
         requestUserLocation()
         setupConstraints()
-        
-        checkConnecting { isConnected in
-            if isConnected {
-                print("Есть подключение")
-            } else {
-                print("Нет подключения")
-            }
+        DispatchQueue.main.async {
+            self.setupLabel()
         }
     }
-
+    
     //MARK: - Private methods
     
     private func signatureDelegate() {
@@ -64,7 +70,7 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         // Setup view
-        view.addSubviews(mainView, hourWeather, daysWeather)
+        view.addSubviews(connectedLabel, mainView, hourWeather, daysWeather)
         view.backgroundColor = .back
         
         // Setup main view
@@ -82,6 +88,8 @@ class MainViewController: UIViewController {
         mainView.locationButtonAddTarget(target: self, selector: #selector(locationButtonTapped))
         mainView.searchButtonAddTarget(target: self, selector: #selector(searchButtonTapped))
         
+        connectedLabel.textColor = .dynamicText
+        connectedLabel.backgroundColor = .blue
     }
     
     private func requestUserLocation() {
@@ -89,19 +97,29 @@ class MainViewController: UIViewController {
         locationManager.requestLocation()
     }
     
-   private func checkConnecting(completionHandler: @escaping (Bool) -> Void) {
+    private func checkConnecting(complitionHandler: @escaping (Bool) -> Void) {
         let monitor = NWPathMonitor()
-
+        
         monitor.pathUpdateHandler = { path in
             if path.status == .satisfied {
-                completionHandler(true)
+                complitionHandler(true)
             } else {
-                completionHandler(false)
+                complitionHandler(false)
             }
         }
-
+        
         let queue = DispatchQueue(label: "NetworkMonitor")
         monitor.start(queue: queue)
+    }
+    
+    private func setupLabel() {
+            self.checkConnecting { isAvail in
+                if isAvail {
+                    print("Connected")
+                } else {
+                    print("Disconnected")
+                }
+            }
     }
     
     //MARK: - Objectiv-C methods
@@ -162,6 +180,16 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
         let heightForRowTable: CGFloat = 60
         return heightForRowTable
     }
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        let heightForHeader: CGFloat = 20
+        return heightForHeader
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        let headerText = "Прогноз на 7 дней"
+        return headerText
+    }
 }
 
 //MARK: Text field delegate
@@ -213,8 +241,9 @@ extension MainViewController {
     private enum Constants {
         static let tenPoints: CGFloat = 10
         static let twentyPoints: CGFloat = 20
+        static let thertyPoints: CGFloat = 20
         static let hourWeatherHeight: CGFloat = 100
-        static let mainViewHeight: CGFloat = 270
+        static let mainViewHeight: CGFloat = 220
         static let hourWeatherTopIdent: CGFloat = 280
     }
     
@@ -223,19 +252,25 @@ extension MainViewController {
         
         NSLayoutConstraint.activate([
             // Main view
-            mainView.topAnchor.constraint(equalTo: view.topAnchor),
+            mainView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             mainView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mainView.heightAnchor.constraint(equalToConstant: Constants.mainViewHeight),
             
+            // Connected label
+            connectedLabel.topAnchor.constraint(equalTo: mainView.bottomAnchor),
+            connectedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            connectedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            connectedLabel.heightAnchor.constraint(equalToConstant: Constants.thertyPoints),
+            
             // Hour weather collection
-            hourWeather.topAnchor.constraint(equalTo: mainView.bottomAnchor),
+            hourWeather.topAnchor.constraint(equalTo: connectedLabel.bottomAnchor),
             hourWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
             hourWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
             hourWeather.heightAnchor.constraint(equalToConstant: Constants.hourWeatherHeight),
             
             // Days table
-            daysWeather.topAnchor.constraint(equalTo: hourWeather.bottomAnchor, constant: Constants.tenPoints),
+            daysWeather.topAnchor.constraint(equalTo: hourWeather.bottomAnchor),
             daysWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
             daysWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
             daysWeather.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
