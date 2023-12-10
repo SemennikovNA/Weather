@@ -22,8 +22,8 @@ class MainView: UIView {
     let cityLabel = UILabel(text: "Miami", font: .boldSystemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
     let temperatureLabel = UILabel(text: "-10°C", font: .systemFont(ofSize: 54), textColor: .dynamicText, textAlignment: .center)
     let descriptionWeatherLabel = UILabel(text: "Солнечно", font: .systemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
-    let minimumTemperatureLabel = UILabel(text: "Min: -20°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .right)
-    let maximumTemperatureLabel = UILabel(text: "Max: 0°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .left)
+    let minimumTemperatureLabel = UILabel(text: "Min: -20°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .left)
+    let maximumTemperatureLabel = UILabel(text: "Max: 0°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .right)
     private lazy var verticalStack = UIStackView(axis: .vertical)
     private lazy var horizontalStack = UIStackView(axis: .horizontal)
     
@@ -80,7 +80,7 @@ private extension MainView {
         static let twentyPoints: CGFloat = 20
         static let fiftyPoint: CGFloat = 50
         static let verticalStackHeight: CGFloat = 130
-        static let horizontalStackWidth: CGFloat = 160
+        static let horizontalStackWidth: CGFloat = 200
         static let verticalStackWidth: CGFloat = 200
         static let searchViewWidth: CGFloat = 350
         

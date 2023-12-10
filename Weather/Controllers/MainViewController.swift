@@ -32,8 +32,16 @@ class MainViewController: UIViewController {
         Week(day: "Friday"),
         Week(day: "Saturday")
     ]
+    var hourlyForecastData: [HourlyForecast] {
+            didSet {
+                DispatchQueue.main.async {
+                    self.hourWeather.reloadData()
+                }
+            }
+        }
     
     init() {
+        self.hourlyForecastData = []
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -55,16 +63,6 @@ class MainViewController: UIViewController {
         DispatchQueue.main.async {
             self.setupLabel()
         }
-        dateForm()
-    }
-    
-    func dateForm() {
-        let timestamp: TimeInterval = 1702231200
-        let date = Date(timeIntervalSince1970: timestamp)
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "EEEE"
-        let dayOfWeek = dateFormatter.string(from: date)
-        print(dayOfWeek)
     }
     
     //MARK: - Private methods
@@ -161,14 +159,13 @@ class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        weekDay.count
+        hourlyForecastData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = hourWeather.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseID, for: indexPath) as! CustomCollectionViewCell
-        cell.hourLabel.text = "12:00"
-        cell.weathedImage.image = UIImage(systemName: "sun.max")
-        cell.temperatureLabel.text = "-10°C"
+        let forecast = hourlyForecastData[indexPath.item]
+        cell.configure(with: forecast)
         return cell
     }
     
@@ -238,7 +235,7 @@ extension MainViewController: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         let _ = location.coordinate.latitude
         let _ = location.coordinate.longitude
-        locationManager.stopUpdatingLocation()
+//        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -248,12 +245,25 @@ extension MainViewController: CLLocationManagerDelegate {
 
 extension MainViewController: WeatherDelegate {
     
-    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, weather: AdvancedWeatherModel, hourlyForecast: [HourlyForecast]?) {
-        <#code#>
+    func updateHourlyForecast(_ hourlyForecast: [HourlyForecast]) {
+        hourlyForecastData = hourlyForecast
+        DispatchQueue.main.async {
+            self.hourWeather.reloadData()
+            
+        }
     }
     
-    
     //MARK: Weather delegate methods
+    
+    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, weather: AdvancedWeatherModel, hourlyForecast: [HourlyForecast]?) {
+        guard let hourlyForecastDatas = hourlyForecast else { return }
+        DispatchQueue.main.async {
+            self.mainView.minimumTemperatureLabel.text = "Min: \(weather.minTemp)"
+            self.mainView.maximumTemperatureLabel.text = "Max: \(weather.maxTemp)"
+
+        }
+                updateHourlyForecast(hourlyForecastDatas)
+    }
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
         DispatchQueue.main.async {

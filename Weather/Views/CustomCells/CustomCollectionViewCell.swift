@@ -40,6 +40,18 @@ class CustomCollectionViewCell: UICollectionViewCell {
         cellView.addSubviews(hourLabel, weathedImage, temperatureLabel)
         weathedImage.tintColor = .dynamicText
     }
+    
+    func configure(with forecast: HourlyForecast) {
+        let date = Date(timeIntervalSince1970: TimeInterval(forecast.time))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let formattedTime = dateFormatter.string(from: date)
+        hourLabel.text = formattedTime
+        let tempFormat = forecast.temperature
+        temperatureLabel.text = String(format: "%.0f", tempFormat)
+        let weatImg = forecast.icon
+        weathedImage.image = UIImage(systemName: weatImg)
+    }
 }
 
 //MARK: - Extension
