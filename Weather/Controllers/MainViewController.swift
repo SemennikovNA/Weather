@@ -21,6 +21,7 @@ class MainViewController: UIViewController {
     //MARK: - Properties
     
     let locationManager = CLLocationManager()
+    let weatherRequestManager = WeatherManager()
     let hourWeatherInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
     let weekDay = [
         Week(day: "Sunday"),
@@ -54,6 +55,16 @@ class MainViewController: UIViewController {
         DispatchQueue.main.async {
             self.setupLabel()
         }
+        dateForm()
+    }
+    
+    func dateForm() {
+        let timestamp: TimeInterval = 1702231200
+        let date = Date(timeIntervalSince1970: timestamp)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let dayOfWeek = dateFormatter.string(from: date)
+        print(dayOfWeek)
     }
     
     //MARK: - Private methods
@@ -66,6 +77,7 @@ class MainViewController: UIViewController {
         hourWeather.delegate = self
         hourWeather.dataSource = self
         locationManager.delegate = self
+        weatherRequestManager.delegate = self
     }
     
     private func setupView() {
@@ -122,15 +134,22 @@ class MainViewController: UIViewController {
             }
     }
     
+    private func searchTapped() {
+        guard let city = mainView.searchTextField.text else { return }
+        weatherRequestManager.getURLForCity(city: city)
+    }
+    
     //MARK: - Objectiv-C methods
     
     @objc func locationButtonTapped() {
         locationManager.requestLocation()
+        guard let latitude = locationManager.location?.coordinate.latitude, let longitude = locationManager.location?.coordinate.longitude else { return }
+        weatherRequestManager.getCoordinate(lat: latitude, lon: longitude)
     }
     
     @objc func searchButtonTapped() {
         mainView.searchTextField.endEditing(true)
-        print("city")
+        searchTapped()
     }
     
 }
@@ -157,6 +176,8 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let collectionCellSize = CGSize(width: 45, height: 100)
         return collectionCellSize
     }
+    
+    
 }
 
 //MARK: Table view delegate, data source methods
@@ -203,17 +224,9 @@ extension MainViewController: UITextFieldDelegate {
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTapped()
         mainView.searchTextField.endEditing(true)
         return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if mainView.searchTextField.text != "" {
-            return true
-        } else {
-            mainView.searchTextField.placeholder = "Нужно ввести город"
-            return false
-        }
     }
 }
 
@@ -223,12 +236,34 @@ extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        let latitude = location.coordinate.latitude
-        let longitude = location.coordinate.longitude
-        print(latitude, longitude)
+        let _ = location.coordinate.latitude
+        let _ = location.coordinate.longitude
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print(error)
+    }
+}
+
+extension MainViewController: WeatherDelegate {
+    
+    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, weather: AdvancedWeatherModel, hourlyForecast: [HourlyForecast]?) {
+        <#code#>
+    }
+    
+    
+    //MARK: Weather delegate methods
+    
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
+        DispatchQueue.main.async {
+            self.mainView.cityLabel.text = weather.city
+            self.mainView.temperatureLabel.text = weather.temperatureString
+            self.mainView.descriptionWeatherLabel.text = weather.description
+        }
+    }
+    
+    func didFailWithError(_ error: Error) {
         print(error)
     }
 }
