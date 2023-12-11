@@ -33,7 +33,7 @@ class WeatherManager {
         self.requestWeather(urlString)
     }
     
-    func getCoordinate(lat: CLLocationDegrees, lon: CLLocationDegrees) {
+    func getCoordinate(lat: Double, lon: Double) {
         guard let urlString = URL(string: "\(urlToLocation)&appid=\(apiKey)&lat=\(lat)&lon=\(lon)") else { return }
         print(urlString)
         self.requestAdvancedWeather(urlString)
@@ -89,12 +89,14 @@ class WeatherManager {
    private func parseMainWeatherJSON(weathedData: Data) -> WeatherModel? {
         do {
             let decodedData = try decode.decode(WeatherData.self, from: weathedData)
+            let lat = decodedData.coord.lat
+            let lon = decodedData.coord.lon
+            getCoordinate(lat: lat, lon: lon)
             let name = decodedData.name
             let temp = decodedData.main.temp
             let id = decodedData.weather[0].id
             let description = decodedData.weather[0].description
-            
-            let weather = WeatherModel(city: name, temp: temp, id: id, description: description)
+            let weather = WeatherModel(city: name, temp: temp, id: id, description: description!)
             return weather
         } catch {
             delegate?.didFailWithError(error)
@@ -109,7 +111,6 @@ class WeatherManager {
             let hourlyForecast = decodeData.hourly.map { hourly in
                 return HourlyForecast(time: hourly.dt, temperature: hourly.temp, id: hourly.weather[0].id)
             }
-
             let day = decodeData.daily[0].dt
             let minTemp = decodeData.daily[0].temp.min
             let maxTemp = decodeData.daily[0].temp.max
