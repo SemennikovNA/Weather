@@ -288,7 +288,7 @@ extension MainViewController {
         static let twentyPoints: CGFloat = 20
         static let thertyPoints: CGFloat = 20
         static let hourWeatherHeight: CGFloat = 100
-        static let mainViewHeight: CGFloat = 220
+        static let mainViewHeight: CGFloat = 280
         static let hourWeatherTopIdent: CGFloat = 280
     }
     

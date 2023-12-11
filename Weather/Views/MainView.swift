@@ -81,7 +81,7 @@ private extension MainView {
         static let fiftyPoint: CGFloat = 50
         static let verticalStackHeight: CGFloat = 130
         static let horizontalStackWidth: CGFloat = 200
-        static let verticalStackWidth: CGFloat = 200
+        static let verticalStackWidth: CGFloat = 180
         static let searchViewWidth: CGFloat = 350
         
     }
@@ -118,7 +118,8 @@ private extension MainView {
             // Vertical stack
             verticalStack.topAnchor.constraint(equalTo: searchView.bottomAnchor),
             verticalStack.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            verticalStack.heightAnchor.constraint(equalToConstant: Constants.verticalStackHeight),
+            verticalStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+            verticalStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
             verticalStack.widthAnchor.constraint(equalToConstant: Constants.verticalStackWidth),
             
             // Horizontal stack
