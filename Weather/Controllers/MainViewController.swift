@@ -51,6 +51,12 @@ class MainViewController: UIViewController {
     
     //MARK: - Life cycle
     
+    override func loadView() {
+        super.loadView()
+        guard let lat = locationManager.location?.coordinate.latitude, let lon = locationManager.location?.coordinate.longitude else { return }
+        weatherRequestManager.getCoordinate(lat: lat, lon: lon)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -230,6 +236,10 @@ extension MainViewController: WeatherDelegate {
     
     func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast weather: [DailyWeather]?, hourlyForecast: [HourlyForecast]?) {
         guard let hourlyForecastDatas = hourlyForecast, let dailyForecastDatas = weather else { return }
+        DispatchQueue.main.async {
+            self.mainView.minimumTemperatureLabel.text = "Min:\(dailyForecastDatas[0].minTemp)°C"
+            self.mainView.maximumTemperatureLabel.text = "Max:\(dailyForecastDatas[0].maxTemp)°C"
+        }
         updateHourlyForecast(hourlyForecastDatas)
         updateDayliForecast(dailyForecastDatas)
     }
