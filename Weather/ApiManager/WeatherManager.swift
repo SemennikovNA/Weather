@@ -22,7 +22,7 @@ class WeatherManager {
     let decode = JSONDecoder()
     var delegate: WeatherDelegate?
     private lazy var apiKey = "23779bbe7c1be50053bd8cfa59a3ddd7"
-    private lazy var url = "https://api.openweathermap.org/data/2.5/weather?units=metric&lang=ru"
+    private lazy var url = "https://api.openweathermap.org/data/2.5/weather?units=metric"
     private lazy var urlToLocation = "https://api.openweathermap.org/data/3.0/onecall?&units=metric&exclude=dayli"
 
     //MARK: - Methods
@@ -100,7 +100,7 @@ class WeatherManager {
             let temp = decodedData.main.temp
             let id = decodedData.weather[0].id
             let description = decodedData.weather[0].description
-            let weather = WeatherModel(city: name, temp: temp, id: id, description: description!)
+            let weather = WeatherModel(city: name, temp: temp, id: id, description: description)
             return weather
         } catch {
             delegate?.didFailWithError(error)

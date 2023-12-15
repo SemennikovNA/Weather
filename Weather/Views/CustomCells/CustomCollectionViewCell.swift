@@ -63,7 +63,8 @@ extension CustomCollectionViewCell {
     /// Value for constraints collection cell
     private enum Constants {
         static let tenPoints: CGFloat = 10
-        static let labelWidthAndHeight: CGFloat = 50
+        static let labelHeight: CGFloat = 50
+        static let labelWidth: CGFloat = 70
         static let weatherImageWidthAndHeight: CGFloat = 40
     }
     
@@ -80,8 +81,8 @@ extension CustomCollectionViewCell {
             // Hour label
             hourLabel.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: -Constants.tenPoints),
             hourLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            hourLabel.widthAnchor.constraint(equalToConstant: Constants.labelWidthAndHeight),
-            hourLabel.heightAnchor.constraint(equalToConstant: Constants.labelWidthAndHeight),
+            hourLabel.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
+            hourLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
             
             // Weather image
             weathedImage.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
@@ -92,8 +93,8 @@ extension CustomCollectionViewCell {
             // Temperature label
             temperatureLabel.topAnchor.constraint(equalTo: weathedImage.bottomAnchor, constant: -Constants.tenPoints),
             temperatureLabel.centerXAnchor.constraint(equalTo: self.contentView.centerXAnchor),
-            temperatureLabel.widthAnchor.constraint(equalToConstant: Constants.labelWidthAndHeight),
-            temperatureLabel.heightAnchor.constraint(equalToConstant: Constants.labelWidthAndHeight),
+            temperatureLabel.widthAnchor.constraint(equalToConstant: Constants.labelWidth),
+            temperatureLabel.heightAnchor.constraint(equalToConstant: Constants.labelHeight),
         ])
     }
 }

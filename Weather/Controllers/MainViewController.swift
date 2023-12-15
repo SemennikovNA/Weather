@@ -7,7 +7,6 @@
 
 import UIKit
 import CoreLocation
-import Network
 
 class MainViewController: UIViewController {
     
@@ -69,6 +68,7 @@ class MainViewController: UIViewController {
     
     //MARK: - Private methods
     
+    // Signature of the delegates
     private func signatureDelegate() {
         // Delegates and data source
         mainView.searchTextField.delegate = self
@@ -80,6 +80,7 @@ class MainViewController: UIViewController {
         weatherRequestManager.delegate = self
     }
     
+    /// Setup view elements
     private func setupView() {
         // Setup view
         view.addSubviews(mainView, hourWeather, daysWeather)
@@ -101,26 +102,31 @@ class MainViewController: UIViewController {
         mainView.searchButtonAddTarget(target: self, selector: #selector(searchButtonTapped))
     }
     
+    /// Request location coordinate
     private func requestUserLocation() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
     }
     
+    /// Search by data entered into the text field
     private func searchTapped() {
         guard let city = mainView.searchTextField.text else { return }
         weatherRequestManager.getURLForCity(city: city)
+        mainView.searchTextField.endEditing(true)
     }
     
     //MARK: - Objectiv-C methods
     
+    /// The method is executed by pressing the location button
     @objc func locationButtonTapped() {
+        
         locationManager.requestLocation()
         guard let latitude = locationManager.location?.coordinate.latitude, let longitude = locationManager.location?.coordinate.longitude else { return }
         weatherRequestManager.getCoordinate(lat: latitude, lon: longitude)
     }
     
+    /// The method executes when the search button is clicked
     @objc func searchButtonTapped() {
-        mainView.searchTextField.endEditing(true)
         searchTapped()
     }
     
@@ -237,8 +243,8 @@ extension MainViewController: WeatherDelegate {
     func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast weather: [DailyWeather]?, hourlyForecast: [HourlyForecast]?) {
         guard let hourlyForecastDatas = hourlyForecast, let dailyForecastDatas = weather else { return }
         DispatchQueue.main.async {
-            self.mainView.minimumTemperatureLabel.text = "Min:\(dailyForecastDatas[0].minTemp)°C"
-            self.mainView.maximumTemperatureLabel.text = "Max:\(dailyForecastDatas[0].maxTemp)°C"
+            self.mainView.minimumTemperatureLabel.text = "Min: \(dailyForecastDatas[0].minTemp)°C"
+            self.mainView.maximumTemperatureLabel.text = "Max: \(dailyForecastDatas[0].maxTemp)°C"
         }
         updateHourlyForecast(hourlyForecastDatas)
         updateDayliForecast(dailyForecastDatas)
@@ -267,7 +273,7 @@ extension MainViewController {
         static let twentyPoints: CGFloat = 20
         static let thertyPoints: CGFloat = 20
         static let hourWeatherHeight: CGFloat = 100
-        static let mainViewHeight: CGFloat = 280
+        static let mainViewHeight: CGFloat = 230
         static let hourWeatherTopIdent: CGFloat = 280
     }
     
@@ -282,7 +288,7 @@ extension MainViewController {
             mainView.heightAnchor.constraint(equalToConstant: Constants.mainViewHeight),
             
             // Hour weather collection
-            hourWeather.topAnchor.constraint(equalTo: mainView.bottomAnchor),
+            hourWeather.topAnchor.constraint(equalTo: mainView.bottomAnchor, constant: Constants.twentyPoints),
             hourWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
             hourWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
             hourWeather.heightAnchor.constraint(equalToConstant: Constants.hourWeatherHeight),

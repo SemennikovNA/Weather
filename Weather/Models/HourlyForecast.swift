@@ -1,17 +1,16 @@
 //
-//  AdvancedWeatherModel.swift
+//  HourlyForecast.swift
 //  Weather
 //
-//  Created by Nikita on 10.12.2023.
+//  Created by Nikita on 16.12.2023.
 //
 
 import Foundation
 
-struct DailyWeather {
+struct HourlyForecast {
     
-    let day: Int
-    let minTemp: Double
-    let maxTemp: Double
+    let time: Int
+    let temperature: Double
     let id: Int
     
     var icon: String {

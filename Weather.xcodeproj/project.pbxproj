@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E3199AF2B2CD7480046B823 /* HourlyForecast.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E3199AE2B2CD7480046B823 /* HourlyForecast.swift */; };
 		1E6D51022B243458009718C4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51012B243458009718C4 /* AppDelegate.swift */; };
 		1E6D51042B243458009718C4 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51032B243458009718C4 /* SceneDelegate.swift */; };
 		1E6D51062B243458009718C4 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6D51052B243458009718C4 /* MainViewController.swift */; };
@@ -31,6 +32,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1E3199AE2B2CD7480046B823 /* HourlyForecast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyForecast.swift; sourceTree = "<group>"; };
 		1E6D50FE2B243458009718C4 /* Weather.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Weather.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1E6D51012B243458009718C4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1E6D51032B243458009718C4 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -86,11 +88,12 @@
 		1E6D51002B243458009718C4 /* Weather */ = {
 			isa = PBXGroup;
 			children = (
-				1E6D511C2B243A91009718C4 /* Extension */,
-				1E6D51192B2434BB009718C4 /* Supports */,
+				1E6D51382B25F1E5009718C4 /* ApiManager */,
 				1E6D51182B243491009718C4 /* Aplications */,
 				1E6D51172B243480009718C4 /* Controllers */,
+				1E6D511C2B243A91009718C4 /* Extension */,
 				1E6D51162B243478009718C4 /* Models */,
+				1E6D51192B2434BB009718C4 /* Supports */,
 				1E6D51152B243471009718C4 /* Views */,
 			);
 			path = Weather;
@@ -110,11 +113,11 @@
 		1E6D51162B243478009718C4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1E6D51382B25F1E5009718C4 /* ApiManager */,
-				1E6D513B2B260406009718C4 /* WeatherData.swift */,
-				1E6D513D2B260855009718C4 /* WeatherModel.swift */,
 				1E6D513F2B26105C009718C4 /* AdvancedWeatherData.swift */,
 				1E6D51412B261088009718C4 /* DailyWeather.swift */,
+				1E3199AE2B2CD7480046B823 /* HourlyForecast.swift */,
+				1E6D513B2B260406009718C4 /* WeatherData.swift */,
+				1E6D513D2B260855009718C4 /* WeatherModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 				1E6D51402B26105C009718C4 /* AdvancedWeatherData.swift in Sources */,
 				1E6D513C2B260406009718C4 /* WeatherData.swift in Sources */,
 				1E6D51292B24632F009718C4 /* DaysWeatherTable.swift in Sources */,
+				1E3199AF2B2CD7480046B823 /* HourlyForecast.swift in Sources */,
 				1E6D51352B24C8E5009718C4 /* UIImageView - Extension.swift in Sources */,
 				1E6D51242B244EAB009718C4 /* HourlyWeatherCollection.swift in Sources */,
 			);
@@ -334,7 +338,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -391,7 +395,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
