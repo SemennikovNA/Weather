@@ -33,13 +33,7 @@ class CustomCollectionViewCell: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Private methods
-    
-    private func setupCell() {
-        contentView.addSubviews(cellView)
-        cellView.addSubviews(hourLabel, weathedImage, temperatureLabel)
-        weathedImage.tintColor = .dynamicText
-    }
+    //MARK: - Public methods
     
     func configure(with forecast: HourlyForecast) {
         let date = Date(timeIntervalSince1970: TimeInterval(forecast.time))
@@ -51,6 +45,14 @@ class CustomCollectionViewCell: UICollectionViewCell {
         temperatureLabel.text = String(format: "%.0f", tempFormat)
         let weatImg = forecast.icon
         weathedImage.image = UIImage(systemName: weatImg)
+    }
+    
+    //MARK: - Private methods
+    
+    private func setupCell() {
+        contentView.addSubviews(cellView)
+        cellView.addSubviews(hourLabel, weathedImage, temperatureLabel)
+        weathedImage.tintColor = .dynamicText
     }
 }
 

@@ -26,7 +26,7 @@ class MainView: UIView {
     let maximumTemperatureLabel = UILabel(text: "Max: 0°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .right)
     private lazy var verticalStack = UIStackView(axis: .vertical)
     private lazy var horizontalStack = UIStackView(axis: .horizontal)
-    
+     
     //MARK: - Initialize
     
     override init(frame: CGRect) {
@@ -52,6 +52,7 @@ class MainView: UIView {
     }
     
     //MARK: - Private methods
+    
     /// Setup main view user elements
     private func setupView() {
         // Setup view
