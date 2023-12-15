@@ -33,6 +33,22 @@ class CustomTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    //MARK: - Public methods
+    
+    func configure(with forecast: DailyWeather) {
+        let date = Date(timeIntervalSince1970: TimeInterval(forecast.day))
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE"
+        let formattedDate = dateFormatter.string(from: date)
+        dayLabel.text = formattedDate
+        let minTemp = String(format: "%.0f", forecast.minTemp)
+        minimumTemperatureLabel.text = "Min:\(minTemp)°C"
+        let maxTemp = String(format: "%.0f", forecast.maxTemp)
+        maximumTemperatureLabel.text = "Max:\(maxTemp)°C"
+        let weatImg = forecast.icon
+        weatherImage.image = UIImage(systemName: weatImg)
+    }
+
     //MARK: - Private methods
     
     private func setupCell() {

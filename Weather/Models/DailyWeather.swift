@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AdvancedWeatherModel {
+struct DailyWeather {
     
     let day: Int
     let minTemp: Double

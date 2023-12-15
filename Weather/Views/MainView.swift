@@ -9,24 +9,20 @@ import UIKit
 
 class MainView: UIView {
     
-    //MARK: - Properties
-
-    let stackSpacingValue: CGFloat = 10
-    
     //MARK: - UI Elements
     
     let searchView = UIView()
     let locationButton = UIButton(image: "location.fill", tintColor: .dynamicText)
     let searchButton = UIButton(image: "magnifyingglass", tintColor: .dynamicText)
     let searchTextField = UITextField(placeholder: "Введите город...", returnKey: .search, textColor: .dynamicText, tintColor: .dynamicText)
-    let cityLabel = UILabel(text: "Miami", font: .boldSystemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
-    let temperatureLabel = UILabel(text: "-10°C", font: .systemFont(ofSize: 54), textColor: .dynamicText, textAlignment: .center)
-    let descriptionWeatherLabel = UILabel(text: "Солнечно", font: .systemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
-    let minimumTemperatureLabel = UILabel(text: "Min: -20°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .left)
-    let maximumTemperatureLabel = UILabel(text: "Max: 0°C", font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .right)
+    let cityLabel = UILabel(font: .boldSystemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
+    let temperatureLabel = UILabel(font: .systemFont(ofSize: 54), textColor: .dynamicText, textAlignment: .center)
+    let descriptionWeatherLabel = UILabel(font: .systemFont(ofSize: 25), textColor: .dynamicText, textAlignment: .center)
+    let minimumTemperatureLabel = UILabel(font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .left)
+    let maximumTemperatureLabel = UILabel(font: .systemFont(ofSize: 15), textColor: .dynamicText, textAlignment: .right)
     private lazy var verticalStack = UIStackView(axis: .vertical)
     private lazy var horizontalStack = UIStackView(axis: .horizontal)
-    
+     
     //MARK: - Initialize
     
     override init(frame: CGRect) {
@@ -43,15 +39,18 @@ class MainView: UIView {
     
     //MARK: - Methods
     
+    /// Add target for location button
     func locationButtonAddTarget(target: Any, selector: Selector) {
         locationButton.addTarget(target, action: selector, for: .touchUpInside)
     }
     
+    /// Add target for search button
     func searchButtonAddTarget(target: Any, selector: Selector) {
         searchButton.addTarget(target, action: selector, for: .touchUpInside)
     }
     
     //MARK: - Private methods
+    
     /// Setup main view user elements
     private func setupView() {
         // Setup view
@@ -64,14 +63,13 @@ class MainView: UIView {
         verticalStack.distribution = .fillEqually
         
         // Setup horizontal stack
-        horizontalStack.spacing = stackSpacingValue
         horizontalStack.addArrangedSubviews(minimumTemperatureLabel, maximumTemperatureLabel)
     }
 }
 
 //MARK: - Private extension
 
-private extension MainView {
+extension MainView {
     
     /// Value for constraints main view
     private enum Constants {
@@ -87,7 +85,7 @@ private extension MainView {
     }
     
     /// Constraints for main view
-    private func setupConstraints() {
+    func setupConstraints() {
         
         NSLayoutConstraint.activate([
             // Search view

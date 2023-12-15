@@ -16,32 +16,32 @@ class MainViewController: UIViewController {
     private lazy var mainView = MainView()
     private lazy var hourWeather = HourlyWeatherCollection()
     private lazy var daysWeather = DaysWeatherTable()
-    private lazy var connectedLabel = UILabel(textAlignment: .center)
     
     //MARK: - Properties
     
     let locationManager = CLLocationManager()
     let weatherRequestManager = WeatherManager()
-    let hourWeatherInsets = UIEdgeInsets(top: 10, left: 20, bottom: 10, right: 20)
-    let weekDay = [
-        Week(day: "Sunday"),
-        Week(day: "Monday"),
-        Week(day: "Tuesday"),
-        Week(day: "Wednesday"),
-        Week(day: "Thursday"),
-        Week(day: "Friday"),
-        Week(day: "Saturday")
-    ]
+    let hourWeatherInsets = UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
     var hourlyForecastData: [HourlyForecast] {
-            didSet {
-                DispatchQueue.main.async {
-                    self.hourWeather.reloadData()
-                }
+        didSet {
+            DispatchQueue.main.async {
+                self.hourWeather.reloadData()
             }
         }
+    }
+    var dayliForecastData: [DailyWeather] {
+        didSet {
+            DispatchQueue.main.async {
+                self.daysWeather.reloadData()
+            }
+        }
+    }
+    
+    //MARK: - Initialize
     
     init() {
         self.hourlyForecastData = []
+        self.dayliForecastData = []
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -50,7 +50,12 @@ class MainViewController: UIViewController {
     }
     
     //MARK: - Life cycle
-
+    
+    override func loadView() {
+        super.loadView()
+        guard let lat = locationManager.location?.coordinate.latitude, let lon = locationManager.location?.coordinate.longitude else { return }
+        weatherRequestManager.getCoordinate(lat: lat, lon: lon)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,9 +65,6 @@ class MainViewController: UIViewController {
         signatureDelegate()
         requestUserLocation()
         setupConstraints()
-        DispatchQueue.main.async {
-            self.setupLabel()
-        }
     }
     
     //MARK: - Private methods
@@ -80,7 +82,7 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         // Setup view
-        view.addSubviews(connectedLabel, mainView, hourWeather, daysWeather)
+        view.addSubviews(mainView, hourWeather, daysWeather)
         view.backgroundColor = .back
         
         // Setup main view
@@ -97,39 +99,11 @@ class MainViewController: UIViewController {
         // Add targets for button
         mainView.locationButtonAddTarget(target: self, selector: #selector(locationButtonTapped))
         mainView.searchButtonAddTarget(target: self, selector: #selector(searchButtonTapped))
-        
-        connectedLabel.textColor = .dynamicText
-        connectedLabel.backgroundColor = .blue
     }
     
     private func requestUserLocation() {
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
-    }
-    
-    private func checkConnecting(complitionHandler: @escaping (Bool) -> Void) {
-        let monitor = NWPathMonitor()
-        
-        monitor.pathUpdateHandler = { path in
-            if path.status == .satisfied {
-                complitionHandler(true)
-            } else {
-                complitionHandler(false)
-            }
-        }
-        
-        let queue = DispatchQueue(label: "NetworkMonitor")
-        monitor.start(queue: queue)
-    }
-    
-    private func setupLabel() {
-            self.checkConnecting { isAvail in
-                if isAvail {
-                    print("Connected")
-                } else {
-                    print("Disconnected")
-                }
-            }
     }
     
     private func searchTapped() {
@@ -159,22 +133,20 @@ class MainViewController: UIViewController {
 extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        hourlyForecastData.count
+        return hourlyForecastData.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = hourWeather.dequeueReusableCell(withReuseIdentifier: CustomCollectionViewCell.reuseID, for: indexPath) as! CustomCollectionViewCell
-        let forecast = hourlyForecastData[indexPath.item]
-        cell.configure(with: forecast)
+        let hourForecast = hourlyForecastData[indexPath.item]
+        cell.configure(with: hourForecast)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let collectionCellSize = CGSize(width: 45, height: 100)
+        let collectionCellSize = CGSize(width: 50, height: 100)
         return collectionCellSize
     }
-    
-    
 }
 
 //MARK: Table view delegate, data source methods
@@ -182,15 +154,13 @@ extension MainViewController: UICollectionViewDelegate, UICollectionViewDataSour
 extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        weekDay.count
+        return dayliForecastData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = daysWeather.dequeueReusableCell(withIdentifier: CustomTableViewCell.reuseIdentifier, for: indexPath) as! CustomTableViewCell
-        cell.dayLabel.text = weekDay[indexPath.row].day
-        cell.weatherImage.image = UIImage(systemName: "sun.max")
-        cell.minimumTemperatureLabel.text = "Min: -10°C"
-        cell.maximumTemperatureLabel.text = "Max: 0°C"
+        let dayForecast = dayliForecastData[indexPath.item]
+        cell.configure(with: dayForecast)
         return cell
     }
     
@@ -205,7 +175,8 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let headerText = "Прогноз на 7 дней"
+        let dayCount = dayliForecastData.count
+        let headerText = "Прогноз на \(dayCount) дней"
         return headerText
     }
 }
@@ -235,7 +206,7 @@ extension MainViewController: CLLocationManagerDelegate {
         guard let location = locations.last else { return }
         let _ = location.coordinate.latitude
         let _ = location.coordinate.longitude
-//        locationManager.stopUpdatingLocation()
+        locationManager.stopUpdatingLocation()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -245,24 +216,32 @@ extension MainViewController: CLLocationManagerDelegate {
 
 extension MainViewController: WeatherDelegate {
     
-    func updateHourlyForecast(_ hourlyForecast: [HourlyForecast]) {
-        hourlyForecastData = hourlyForecast
+    func updateHourlyForecast(_ hourlyForecast: [HourlyForecast]?) {
+        guard let hourlyForecastData = hourlyForecast else { return }
+        self.hourlyForecastData = hourlyForecastData
         DispatchQueue.main.async {
             self.hourWeather.reloadData()
-            
+        }
+    }
+    
+    func updateDayliForecast(_ dayliForecast: [DailyWeather]?) {
+        guard let dayliForecastData = dayliForecast else { return }
+        self.dayliForecastData = dayliForecastData
+        DispatchQueue.main.async {
+            self.daysWeather.reloadData()
         }
     }
     
     //MARK: Weather delegate methods
     
-    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, weather: AdvancedWeatherModel, hourlyForecast: [HourlyForecast]?) {
-        guard let hourlyForecastDatas = hourlyForecast else { return }
+    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast weather: [DailyWeather]?, hourlyForecast: [HourlyForecast]?) {
+        guard let hourlyForecastDatas = hourlyForecast, let dailyForecastDatas = weather else { return }
         DispatchQueue.main.async {
-            self.mainView.minimumTemperatureLabel.text = "Min: \(weather.minTemp)"
-            self.mainView.maximumTemperatureLabel.text = "Max: \(weather.maxTemp)"
-
+            self.mainView.minimumTemperatureLabel.text = "Min:\(dailyForecastDatas[0].minTemp)°C"
+            self.mainView.maximumTemperatureLabel.text = "Max:\(dailyForecastDatas[0].maxTemp)°C"
         }
-                updateHourlyForecast(hourlyForecastDatas)
+        updateHourlyForecast(hourlyForecastDatas)
+        updateDayliForecast(dailyForecastDatas)
     }
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
@@ -302,14 +281,8 @@ extension MainViewController {
             mainView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             mainView.heightAnchor.constraint(equalToConstant: Constants.mainViewHeight),
             
-            // Connected label
-            connectedLabel.topAnchor.constraint(equalTo: mainView.bottomAnchor),
-            connectedLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            connectedLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            connectedLabel.heightAnchor.constraint(equalToConstant: Constants.thertyPoints),
-            
             // Hour weather collection
-            hourWeather.topAnchor.constraint(equalTo: connectedLabel.bottomAnchor),
+            hourWeather.topAnchor.constraint(equalTo: mainView.bottomAnchor),
             hourWeather.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: Constants.twentyPoints),
             hourWeather.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -Constants.twentyPoints),
             hourWeather.heightAnchor.constraint(equalToConstant: Constants.hourWeatherHeight),
