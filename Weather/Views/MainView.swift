@@ -77,7 +77,7 @@ extension MainView {
         static let tenPoints: CGFloat = 10
         static let twentyPoints: CGFloat = 20
         static let fiftyPoint: CGFloat = 50
-        static let verticalStackHeight: CGFloat = 130
+        static let verticalStackHeight: CGFloat = 150
         static let horizontalStackWidth: CGFloat = 200
         static let verticalStackWidth: CGFloat = 180
         static let searchViewWidth: CGFloat = 350
@@ -108,17 +108,16 @@ extension MainView {
             
             // Search text field in search view
             searchTextField.centerYAnchor.constraint(equalTo: searchView.centerYAnchor),
-            searchTextField.leadingAnchor.constraint(equalTo: locationButton.trailingAnchor, constant: Constants.tenPoints),
-            searchTextField.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor, constant: Constants.tenPoints),
+            searchTextField.leadingAnchor.constraint(equalTo: locationButton.trailingAnchor),
+            searchTextField.trailingAnchor.constraint(equalTo: searchButton.leadingAnchor),
             searchTextField.heightAnchor.constraint(equalToConstant: Constants.fiftyPoint),
             
             
             // Vertical stack
             verticalStack.topAnchor.constraint(equalTo: searchView.bottomAnchor),
-            verticalStack.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             verticalStack.leadingAnchor.constraint(equalTo: self.leadingAnchor),
             verticalStack.trailingAnchor.constraint(equalTo: self.trailingAnchor),
-            verticalStack.widthAnchor.constraint(equalToConstant: Constants.verticalStackWidth),
+            verticalStack.heightAnchor.constraint(equalToConstant: Constants.verticalStackHeight),
             
             // Horizontal stack
             horizontalStack.topAnchor.constraint(equalTo: verticalStack.bottomAnchor, constant: Constants.tenPoints),
