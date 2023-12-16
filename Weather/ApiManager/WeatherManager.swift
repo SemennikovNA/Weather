@@ -24,6 +24,8 @@ class WeatherManager {
     private lazy var apiKey = "23779bbe7c1be50053bd8cfa59a3ddd7"
     private lazy var url = "https://api.openweathermap.org/data/2.5/weather?units=metric"
     private lazy var urlToLocation = "https://api.openweathermap.org/data/3.0/onecall?&units=metric&exclude=dayli"
+    
+
 
     //MARK: - Methods
 

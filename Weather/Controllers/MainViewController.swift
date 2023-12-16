@@ -91,6 +91,7 @@ class MainViewController: UIViewController {
         
         // Days weather table
         daysWeather.showsVerticalScrollIndicator = false
+        daysWeather.allowsSelection = false
         
         // Hour weather collection
         hourWeather.showsHorizontalScrollIndicator = false
@@ -117,7 +118,7 @@ class MainViewController: UIViewController {
     
     //MARK: - Objectiv-C methods
     
-    /// The method is executed by pressing the location button
+    /// The method executes when the location button is clicked
     @objc func locationButtonTapped() {
         
         locationManager.requestLocation()
@@ -242,9 +243,11 @@ extension MainViewController: WeatherDelegate {
     
     func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast weather: [DailyWeather]?, hourlyForecast: [HourlyForecast]?) {
         guard let hourlyForecastDatas = hourlyForecast, let dailyForecastDatas = weather else { return }
+        let formatedMinTemp = String(format: "%.1f", dailyForecastDatas[0].minTemp)
+        let formatedMaxTemp = String(format: "%.1f", dailyForecastDatas[0].maxTemp)
         DispatchQueue.main.async {
-            self.mainView.minimumTemperatureLabel.text = "Min: \(dailyForecastDatas[0].minTemp)°C"
-            self.mainView.maximumTemperatureLabel.text = "Max: \(dailyForecastDatas[0].maxTemp)°C"
+            self.mainView.minimumTemperatureLabel.text = "Min: \(formatedMinTemp)°C"
+            self.mainView.maximumTemperatureLabel.text = "Max: \(formatedMaxTemp)°C"
         }
         updateHourlyForecast(hourlyForecastDatas)
         updateDayliForecast(dailyForecastDatas)
