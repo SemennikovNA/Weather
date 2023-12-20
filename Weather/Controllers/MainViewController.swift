@@ -42,6 +42,8 @@ class MainViewController: UIViewController {
         self.hourlyForecastData = []
         self.dayliForecastData = []
         super.init(nibName: nil, bundle: nil)
+        signatureDelegate()
+        requestUserLocation()
     }
     
     required init?(coder: NSCoder) {
@@ -50,19 +52,11 @@ class MainViewController: UIViewController {
     
     //MARK: - Life cycle
     
-    override func loadView() {
-        super.loadView()
-        guard let lat = locationManager.location?.coordinate.latitude, let lon = locationManager.location?.coordinate.longitude else { return }
-        weatherRequestManager.getCoordinate(lat: lat, lon: lon)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Call fucntion's
         setupView()
-        signatureDelegate()
-        requestUserLocation()
         setupConstraints()
     }
     
@@ -91,6 +85,8 @@ class MainViewController: UIViewController {
         
         // Days weather table
         daysWeather.showsVerticalScrollIndicator = false
+        daysWeather.allowsSelection = false
+        daysWeather.isHidden = true
         
         // Hour weather collection
         hourWeather.showsHorizontalScrollIndicator = false
@@ -117,10 +113,8 @@ class MainViewController: UIViewController {
     
     //MARK: - Objectiv-C methods
     
-    /// The method is executed by pressing the location button
+    /// The method executes when the location button is clicked
     @objc func locationButtonTapped() {
-        
-        locationManager.requestLocation()
         guard let latitude = locationManager.location?.coordinate.latitude, let longitude = locationManager.location?.coordinate.longitude else { return }
         weatherRequestManager.getCoordinate(lat: latitude, lon: longitude)
     }
@@ -210,9 +204,10 @@ extension MainViewController: CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        let _ = location.coordinate.latitude
-        let _ = location.coordinate.longitude
         locationManager.stopUpdatingLocation()
+        let lat = location.coordinate.latitude
+        let lon = location.coordinate.longitude
+        self.weatherRequestManager.getCoordinate(lat: lat, lon: lon)
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -242,19 +237,30 @@ extension MainViewController: WeatherDelegate {
     
     func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast weather: [DailyWeather]?, hourlyForecast: [HourlyForecast]?) {
         guard let hourlyForecastDatas = hourlyForecast, let dailyForecastDatas = weather else { return }
+        let formatedMinTemp = String(format: "%.1f", dayliForecastData[0].minTemp)
+        let formatedMaxTemp = String(format: "%.1f", dayliForecastData[0].maxTemp)
         DispatchQueue.main.async {
-            self.mainView.minimumTemperatureLabel.text = "Min: \(dailyForecastDatas[0].minTemp)°C"
-            self.mainView.maximumTemperatureLabel.text = "Max: \(dailyForecastDatas[0].maxTemp)°C"
+            self.daysWeather.isHidden = false
+            self.mainView.cityLabel.text = dailyForecastDatas[0].
+            self.mainView.temperatureLabel.text = weather.temperatureString
+            self.mainView.descriptionWeatherLabel.text = weather.description
+            self.mainView.maximumTemperatureLabel.text = "Min: \(formatedMaxTemp)°C"
+            self.mainView.minimumTemperatureLabel.text = "Min: \(formatedMinTemp)°C"
         }
         updateHourlyForecast(hourlyForecastDatas)
         updateDayliForecast(dailyForecastDatas)
     }
     
     func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel) {
+        let formatedMinTemp = String(format: "%.1f", weather.minTemp)
+        let formatedMaxTemp = String(format: "%.1f", weather.maxTemp)
         DispatchQueue.main.async {
+            self.daysWeather.isHidden = false
             self.mainView.cityLabel.text = weather.city
             self.mainView.temperatureLabel.text = weather.temperatureString
             self.mainView.descriptionWeatherLabel.text = weather.description
+            self.mainView.maximumTemperatureLabel.text = "Min: \(formatedMaxTemp)°C"
+            self.mainView.minimumTemperatureLabel.text = "Min: \(formatedMinTemp)°C"
         }
     }
     
