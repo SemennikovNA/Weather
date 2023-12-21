@@ -237,16 +237,6 @@ extension MainViewController: WeatherDelegate {
     
     func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast weather: [DailyWeather]?, hourlyForecast: [HourlyForecast]?) {
         guard let hourlyForecastDatas = hourlyForecast, let dailyForecastDatas = weather else { return }
-        let formatedMinTemp = String(format: "%.1f", dayliForecastData[0].minTemp)
-        let formatedMaxTemp = String(format: "%.1f", dayliForecastData[0].maxTemp)
-        DispatchQueue.main.async {
-            self.daysWeather.isHidden = false
-            self.mainView.cityLabel.text = dailyForecastDatas[0].
-            self.mainView.temperatureLabel.text = weather.temperatureString
-            self.mainView.descriptionWeatherLabel.text = weather.description
-            self.mainView.maximumTemperatureLabel.text = "Min: \(formatedMaxTemp)°C"
-            self.mainView.minimumTemperatureLabel.text = "Min: \(formatedMinTemp)°C"
-        }
         updateHourlyForecast(hourlyForecastDatas)
         updateDayliForecast(dailyForecastDatas)
     }
@@ -259,7 +249,7 @@ extension MainViewController: WeatherDelegate {
             self.mainView.cityLabel.text = weather.city
             self.mainView.temperatureLabel.text = weather.temperatureString
             self.mainView.descriptionWeatherLabel.text = weather.description
-            self.mainView.maximumTemperatureLabel.text = "Min: \(formatedMaxTemp)°C"
+            self.mainView.maximumTemperatureLabel.text = "Max: \(formatedMaxTemp)°C"
             self.mainView.minimumTemperatureLabel.text = "Min: \(formatedMinTemp)°C"
         }
     }

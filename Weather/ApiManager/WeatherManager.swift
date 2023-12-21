@@ -9,7 +9,8 @@ import Foundation
 import CoreLocation
 
 protocol WeatherDelegate {
-    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast: [DailyWeather]?, hourlyForecast: [HourlyForecast]?, weather: WeatherModel)
+    func didUpdateWeather(_ weatherManager: WeatherManager, weather: WeatherModel)
+    func didUpdateAdvancedWeather(_ weatherManager: WeatherManager, dailyForecast: [DailyWeather]?, hourlyForecast: [HourlyForecast]?)
     func didFailWithError(_ error: Error)
 }
 
@@ -80,7 +81,7 @@ class WeatherManager {
                     return DailyWeather(day: daily.dt, minTemp: daily.temp.min, maxTemp: daily.temp.max, id: daily.weather[0].id)
                 }
 
-                self.delegate?.didUpdateAdvancedWeather(self, dailyForecast: dailyForecast, hourlyForecast: hourlyForecast, weather: <#WeatherModel#>)
+                self.delegate?.didUpdateAdvancedWeather(self, dailyForecast: dailyForecast, hourlyForecast: hourlyForecast)
             } catch {
                 self.delegate?.didFailWithError(error)
             }
