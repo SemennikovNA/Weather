@@ -93,13 +93,13 @@ extension CustomTableViewCell {
             
             // Minimum temperature label
             minimumTemperatureLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
-            minimumTemperatureLabel.leadingAnchor.constraint(equalTo: weatherImage.trailingAnchor, constant: Constants.twentyPoints),
+            minimumTemperatureLabel.trailingAnchor.constraint(equalTo: maximumTemperatureLabel.leadingAnchor, constant: Constants.fivePoints),
             minimumTemperatureLabel.heightAnchor.constraint(equalToConstant: Constants.thirtyFivePoints),
             minimumTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.temperatureLabelWidth),
             
             // Maximum temperature label
             maximumTemperatureLabel.centerYAnchor.constraint(equalTo: cellView.centerYAnchor),
-            maximumTemperatureLabel.leadingAnchor.constraint(equalTo: minimumTemperatureLabel.trailingAnchor, constant: Constants.fivePoints),
+            maximumTemperatureLabel.trailingAnchor.constraint(equalTo: cellView.trailingAnchor, constant: -Constants.twentyPoints),
             maximumTemperatureLabel.heightAnchor.constraint(equalToConstant: Constants.thirtyFivePoints),
             maximumTemperatureLabel.widthAnchor.constraint(equalToConstant: Constants.temperatureLabelWidth),
         ])
